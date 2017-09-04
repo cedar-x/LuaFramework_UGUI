@@ -1,14 +1,4 @@
 
-CtrlNames = {
-	Prompt = "PromptCtrl",
-	Message = "MessageCtrl"
-}
-
-PanelNames = {
-	"PromptPanel",	
-	"MessagePanel",
-}
-
 --协议类型--
 ProtocalType = {
 	BINARY = 0,
@@ -24,10 +14,18 @@ AppConst = LuaFramework.AppConst;
 LuaHelper = LuaFramework.LuaHelper;
 ByteBuffer = LuaFramework.ByteBuffer;
 
+Resources = UnityEngine.Resources;
+Input = UnityEngine.Input;
+KeyCode = UnityEngine.KeyCode;
+
 resMgr = LuaHelper.GetResManager();
 panelMgr = LuaHelper.GetPanelManager();
 soundMgr = LuaHelper.GetSoundManager();
 networkMgr = LuaHelper.GetNetManager();
 
+poolMgr = PathologicalGames.SpawnPoolsDict.New();
+prefabPool = PathologicalGames.PrefabPool;
+
 WWW = UnityEngine.WWW;
 GameObject = UnityEngine.GameObject;
+EventTriggerListener = LuaFramework.EventTriggerListener;

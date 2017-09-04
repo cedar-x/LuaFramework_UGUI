@@ -22,3 +22,58 @@ function LuaClass:test()
 end
 
 --endregion
+
+--类继承-----------------------------------------------
+	_G.object = {}
+
+	setmetatable(object, {__call =
+		function ( base ,init)
+			local function createClass( base ,init)
+				local class = init or {};
+				class . base = base
+				class .constructor= false
+				class .instance= function (self, o, ...)
+					local obj={}
+					local arg = {...};
+					--copy from self( class prototype)
+					for k,v in pairs(self) do
+						obj[k] = v;
+					end
+					if (type(o) == "table" ) then
+						--copy from o
+						for k,v in pairs(o) do
+							obj[k] = v;
+						end
+					else
+						table.insert(arg, 1, o);
+					end
+					
+					do
+						local function call_constructor(c,...)
+							if c.constructor then
+								c.constructor(obj,...)
+							end
+							if c. base then
+								call_constructor(c. base ,...)
+							end
+						end
+						call_constructor( class ,unpack(arg))
+					end
+					setmetatable(obj,{ __index=self.base })
+					return obj
+				end
+				setmetatable( class ,{
+				__call = createClass,
+				__index = class . base
+				})
+				
+				return class
+			end;
+
+			return createClass( base ,init);
+		end;
+	});
+
+	_G.new = function(class, init, ...)
+		return class:instance(init, ...);
+	end

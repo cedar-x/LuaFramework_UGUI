@@ -11,19 +11,19 @@ namespace LuaFramework {
         private Dictionary<string, LuaFunction> buttons = new Dictionary<string, LuaFunction>();
 
         protected void Awake() {
-            Util.CallMethod(name, "Awake", gameObject);
+            Util.CallMethod(name.Substring(name.IndexOf('.')+1), "Awake", gameObject);
         }
 
         protected void Start() {
-            Util.CallMethod(name, "Start");
+            Util.CallMethod(name.Substring(name.IndexOf('.') + 1), "Start");
         }
 
         protected void OnClick() {
-            Util.CallMethod(name, "OnClick");
+            Util.CallMethod(name.Substring(name.IndexOf('.') + 1), "OnClick");
         }
 
         protected void OnClickEvent(GameObject go) {
-            Util.CallMethod(name, "OnClick", go);
+            Util.CallMethod(name.Substring(name.IndexOf('.') + 1), "OnClick", go);
         }
 
         /// <summary>
@@ -31,6 +31,11 @@ namespace LuaFramework {
         /// </summary>
         public void AddClick(GameObject go, LuaFunction luafunc) {
             if (go == null || luafunc == null) return;
+            if (buttons.ContainsKey(go.name))
+            {
+                Debug.LogWarning("AddClick:"+go);
+                buttons.Remove(go.name);
+            }
             buttons.Add(go.name, luafunc);
             go.GetComponent<Button>().onClick.AddListener(
                 delegate() {
@@ -67,9 +72,10 @@ namespace LuaFramework {
 
         //-----------------------------------------------------------------
         protected void OnDestroy() {
+            Util.CallMethod(name.Substring(name.IndexOf('.') + 1), "OnDestroy");
             ClearClick();
 #if ASYNC_MODE
-            string abName = name.ToLower().Replace("panel", "");
+            string abName = name.Substring(0, name.IndexOf('.')).ToLower();
             ResManager.UnloadAssetBundle(abName + AppConst.ExtName);
 #endif
             Util.ClearMemory();

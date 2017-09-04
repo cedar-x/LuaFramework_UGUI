@@ -16,6 +16,7 @@ namespace LuaFramework {
             lua.LuaSetTop(0);
 
             LuaBinder.Bind(lua);
+            DelegateFactory.Init();
             LuaCoroutine.Register(lua, this);
         }
 
@@ -23,6 +24,7 @@ namespace LuaFramework {
             InitLuaPath();
             InitLuaBundle();
             this.lua.Start();    //启动LUAVM
+            LuaExtraManager.OnLoadFinished(this.lua);
             this.StartMain();
             this.StartLooper();
         }
@@ -109,7 +111,7 @@ namespace LuaFramework {
 
         // Update is called once per frame
         public object[] CallFunction(string funcName, params object[] args) {
-            LuaFunction func = lua.GetFunction(funcName);
+            LuaFunction func = lua.GetFunction(funcName,false);
             if (func != null) {
                 return func.LazyCall(args);
             }

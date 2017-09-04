@@ -499,7 +499,7 @@ namespace LuaInterface
             LuaDLL.lua_rawset(L, -3);
         }
 
-        int GetFuncRef(string name)
+        public int GetFuncRef(string name)
         {
             if (PushLuaFunction(name, false))
             {

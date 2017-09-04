@@ -43,3 +43,4 @@ require "System.ValueType"
 require "System.Reflection.BindingFlags"
 
 --require "misc.strict"
+Rect		= require "UnityEngine.Rect"

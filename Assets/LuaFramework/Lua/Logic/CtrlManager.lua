@@ -1,6 +1,6 @@
 require "Common/define"
-require "Controller/PromptCtrl"
-require "Controller/MessageCtrl"
+require "Controller/CtrlBase"
+
 
 CtrlManager = {};
 local this = CtrlManager;
@@ -8,8 +8,13 @@ local ctrlList = {};	--控制器列表--
 
 function CtrlManager.Init()
 	logWarn("CtrlManager.Init----->>>");
-	ctrlList[CtrlNames.Prompt] = PromptCtrl.New();
-	ctrlList[CtrlNames.Message] = MessageCtrl.New();
+	for i, v in pairs(UIPanelConfig) do 
+		if v.controlSystem then 
+			_G[v.controlSystem] = CtrlBase:New(v.szPanelCode);
+			-- this.AddCtrl(v.szPanelCode, _G[v.controlSystem])
+			this.AddCtrl(v.controlSystem, _G[v.controlSystem])
+		end
+	end
 	return this;
 end
 
@@ -26,6 +31,16 @@ end
 --移除控制器--
 function CtrlManager.RemoveCtrl(ctrlName)
 	ctrlList[ctrlName] = nil;
+end
+
+--view控制回调--
+function CtrlManager.RemoteInvoke(ctrlName, funcName, ...)
+	local ctrlSys = this.GetCtrl(ctrlName);
+	if not ctrlSys then ErrorException("CtrlManager.RemoteInvoke nil:", ctrlName) return end
+	local b,err = pcall(ctrlSys[funcName] ,ctrlSys, ...);
+	if b == false then
+		ErrorException(string.format("%s call %s Failed %s", ctrlName, funcName, err));
+	end
 end
 
 --关闭控制器--

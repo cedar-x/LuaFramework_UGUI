@@ -1,0 +1,13 @@
+﻿_G["UIPanelConfig"]={
+	["Layer001"]={szPanelCode="Layer001",controlSystem="View_Ctrl",szBundleName="RootLayer",szResName="Layer_Bottom",szPanelName=nil,dwLayer=nil,szDesc="UI层_bottom"},
+	["Layer002"]={szPanelCode="Layer002",controlSystem="Layer002_Ctrl",szBundleName="RootLayer",szResName="Layer_Middle",szPanelName=nil,dwLayer=nil,szDesc="UI层_Middle"},
+	["Layer003"]={szPanelCode="Layer003",controlSystem="Layer003_Ctrl",szBundleName="RootLayer",szResName="Layer_Top",szPanelName=nil,dwLayer=nil,szDesc="UI层_Top"},
+	["Layer004"]={szPanelCode="Layer004",controlSystem="Layer004_Ctrl",szBundleName="RootLayer",szResName="Layer_TopMost",szPanelName=nil,dwLayer=nil,szDesc="UI层_TopMost"},
+	["Layer005"]={szPanelCode="Layer005",controlSystem="Layer005_Ctrl",szBundleName="RootLayer",szResName="Layer_Loading",szPanelName=nil,dwLayer=nil,szDesc="UI层_Loading"},
+	["Prompt001"]={szPanelCode="Prompt001",controlSystem="Prompt001_Ctrl",szBundleName="Prompt",szResName="Prompt001",szPanelName=nil,dwLayer="Layer004",szDesc="测试界面"},
+	["Prompt002"]={szPanelCode="Prompt002",controlSystem="Prompt002_Ctrl",szBundleName="Prompt",szResName="PromptPanel",szPanelName=nil,dwLayer="Layer002",szDesc="资源复用测试"},
+	["Prompt003"]={szPanelCode="Prompt003",controlSystem="Prompt003_Ctrl",szBundleName="Prompt",szResName="PromptPanel",szPanelName="PromptPanel2",dwLayer="Layer002",szDesc="资源复用测试"},
+	["MazePanel"]={szPanelCode="MazePanel",controlSystem="Maze_Ctrl",szBundleName="Maze",szResName="Maze_Panel",szPanelName=nil,dwLayer="Layer002",szDesc="迷宫参数界面"},
+	["MazeJoystick"]={szPanelCode="MazeJoystick",controlSystem="MazeJoy_Ctrl",szBundleName="Maze",szResName="Maze_Joystick",szPanelName=nil,dwLayer="Layer002",szDesc="迷宫方向摇杆"},
+	["UserInterface"]={szPanelCode="UserInterface",controlSystem="UserInterface_Ctrl",szBundleName="Prompt",szResName="UserInterface",szPanelName=nil,dwLayer="Layer002",szDesc="主界面UI"}
+}

@@ -162,7 +162,9 @@ public class Packager {
         if (!Directory.Exists(resPath)) Directory.CreateDirectory(resPath);
 
         AddBuildMap("prompt" + AppConst.ExtName, "*.prefab", "Assets/LuaFramework/Examples/Builds/Prompt");
+        AddBuildMap("maze" + AppConst.ExtName, "*.prefab", "Assets/LuaFramework/Examples/Builds/Maze");
         AddBuildMap("message" + AppConst.ExtName, "*.prefab", "Assets/LuaFramework/Examples/Builds/Message");
+        AddBuildMap("rootlayer" + AppConst.ExtName, "*.prefab", "Assets/LuaFramework/Examples/Builds/RootLayer");
 
         AddBuildMap("prompt_asset" + AppConst.ExtName, "*.png", "Assets/LuaFramework/Examples/Textures/Prompt");
         AddBuildMap("shared_asset" + AppConst.ExtName, "*.png", "Assets/LuaFramework/Examples/Textures/Shared");

@@ -80,9 +80,9 @@ public static class CustomSettings
         //_GT(typeof(LineRenderer)).AddExtendType(typeof(DG.Tweening.ShortcutExtensions)),
         //_GT(typeof(TrailRenderer)).AddExtendType(typeof(DG.Tweening.ShortcutExtensions)),    
 #else
-                                         
+                                
         _GT(typeof(Component)),
-        _GT(typeof(Transform)),
+        _GT(typeof(Transform)).AddExtendType(typeof(ExternTransform)),   
         _GT(typeof(Material)),
         _GT(typeof(Light)),
         _GT(typeof(Rigidbody)),
@@ -120,7 +120,7 @@ public static class CustomSettings
         _GT(typeof(Input)),
         _GT(typeof(KeyCode)),
         _GT(typeof(SkinnedMeshRenderer)),
-        _GT(typeof(Space)),      
+        _GT(typeof(Space)),
        
 
         _GT(typeof(MeshRenderer)),
@@ -153,13 +153,17 @@ public static class CustomSettings
         //for LuaFramework
         _GT(typeof(RectTransform)),
         _GT(typeof(Text)),
+        _GT(typeof(InputField)),
+        _GT(typeof(Toggle)),
+        _GT(typeof(Slider)),
 
         _GT(typeof(Util)),
         _GT(typeof(AppConst)),
         _GT(typeof(LuaHelper)),
         _GT(typeof(ByteBuffer)),
         _GT(typeof(LuaBehaviour)),
-
+        _GT(typeof(EventTriggerListener)),
+        
         _GT(typeof(GameManager)),
         _GT(typeof(LuaManager)),
         _GT(typeof(PanelManager)),
@@ -167,7 +171,10 @@ public static class CustomSettings
         _GT(typeof(TimerManager)),
         _GT(typeof(ThreadManager)),
         _GT(typeof(NetworkManager)),
-        _GT(typeof(ResourceManager)),		  
+        _GT(typeof(ResourceManager)),
+        _GT(typeof(PathologicalGames.PrefabPool)),
+        _GT(typeof(PathologicalGames.SpawnPool)),
+        _GT(typeof(PathologicalGames.SpawnPoolsDict)),
     };
 
     public static List<Type> dynamicList = new List<Type>()
