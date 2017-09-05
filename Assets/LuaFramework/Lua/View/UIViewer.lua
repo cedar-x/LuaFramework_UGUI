@@ -60,7 +60,7 @@ function UIViewer.Show(szPanelCode, pfn)
 	local objCtrl = this._objPanelMgr:Get(szPanelCode);
 	if not objCtrl then ErrorException("PanelCtrl nil:", szPanelCode) return end
 	if objCtrl._visible == true then 
-		return
+		-- return
 	end
 	objCtrl._visible = true;
 	objCtrl._bLoading = true;

@@ -116,6 +116,20 @@ namespace LuaFramework {
                     yield break;
                 }
             }
+            if (typeof(T) != typeof(AssetBundleManifest)){
+                //增加dependencies引用计数
+                string[] dependencies = m_AssetBundleManifest.GetAllDependencies(abName);
+                if (dependencies.Length > 0){
+                    for (int i = 0; i < dependencies.Length; i++){
+                        string depName = dependencies[i];
+                        AssetBundleInfo depbundleInfo = null;
+                        if (m_LoadedAssetBundles.TryGetValue(depName, out depbundleInfo)){
+                            depbundleInfo.m_ReferencedCount++;
+                        }
+                    }
+                }
+            }
+
             List<LoadAssetRequest> list = null;
             if (!m_LoadRequests.TryGetValue(abName, out list)) {
                 m_LoadRequests.Remove(abName);
@@ -163,7 +177,7 @@ namespace LuaFramework {
                         string depName = dependencies[i];
                         AssetBundleInfo bundleInfo = null;
                         if (m_LoadedAssetBundles.TryGetValue(depName, out bundleInfo)) {
-                            bundleInfo.m_ReferencedCount++;
+                            continue;
                         } else if (!m_LoadRequests.ContainsKey(depName)) {
                             yield return StartCoroutine(OnLoadAssetBundle(depName, type));
                         }

@@ -52,9 +52,29 @@ function Game.OnInitOK()
     -- if objRender:GetType() == typeof(UnityEngine.MeshRenderer) then 
     --     logWarn("Sdfsdf")
     -- end
+    -- UpdateBeat:Add(this.Update, self)
 end
 
 --销毁--
 function Game.OnDestroy()
 	--logWarn('OnDestroy--->>>');
+end
+function Game.Update()
+    if Input.GetKeyDown(KeyCode.Alpha1)  then
+        UIViewer.Show("Layer001")
+    elseif Input.GetKeyDown(KeyCode.Alpha2) then
+        UIViewer.Show("Layer002")
+    elseif Input.GetKeyDown(KeyCode.Alpha3) then
+        UIViewer.Show("Layer003")
+    elseif Input.GetKeyDown(KeyCode.Alpha4) then
+        UIViewer.Show("Layer004")
+    elseif Input.GetKeyDown(KeyCode.Alpha5) then
+        UIViewer.Show("Layer005")
+    elseif Input.GetKeyDown(KeyCode.Alpha6) then
+        UIViewer.Show("Prompt001")
+    elseif Input.GetKeyDown(KeyCode.Alpha7) then
+        UIViewer.Show("UserInterface")
+    elseif Input.GetKeyDown(KeyCode.Alpha8) then
+        UIViewer.Show("MazePanel")
+    end
 end

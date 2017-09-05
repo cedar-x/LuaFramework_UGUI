@@ -12,21 +12,20 @@ function Maze_Ctrl:Awake()
 			self:Hide();
 		end)
 	self:AddClick(self.UIBuffer.btn_begingame, function()
-			self.UIBuffer.btn_begingame:SetActive(false);
-			self.UIBuffer.btn_resetgame:SetActive(true);
+			-- self.UIBuffer.btn_begingame:SetActive(false);
+			-- self.UIBuffer.btn_resetgame:SetActive(true);
 			self:SetParam();
+			self:Hide()
 		end)
 	self:AddClick(self.UIBuffer.btn_resetgame, function()
 			self:SetParam();
-		end)
-	self:AddClick(self.UIBuffer.btn_resetgame, function(obj)
-			log("234SDf:", obj.name)
+			self:Hide()
 		end)
 	self.UIBuffer.btn_resetgame:SetActive(false)
+	self.UIBuffer.input_doorProb.text = "0.1"
 end
 
 function Maze_Ctrl:OnDestory()
-	self.UICache = {}
 end
 
 function Maze_Ctrl:SetParam()
@@ -39,4 +38,7 @@ function Maze_Ctrl:SetParam()
 	log("22222:", self.UIBuffer.toggle_hexagon.isOn)
 	log("33333:", self.UIBuffer.radio_otherroom.isOn)
 	log("44444:", width, ":", height, ":", doorProb, ":", sidenum)
+	require "Logic/Maze/Include"
+	MazeManager.resetting(width, height, doorProb, self.UIBuffer.radio_otherroom.isOn)
+	MazeManager.StartGame()
 end

@@ -3,9 +3,6 @@ _G.MazeManager = {}
 local this = MazeManager;
 
 function MazeManager.Init()
-	this.size = Vector2(10,10);
-	this.generationStepDelay = 0;
-
 	-- this.objMazeRoot = GameObject.New("MazeRoot");
 	-- this.objMazeRoot.transform.localPosition = Vector3(123,23,1);
 	-- local objMaterial = newObject(Resources.Load("MazePrefab/Maze Wall"));
@@ -105,10 +102,10 @@ end
 local function RandomCoordinates()
 	-- math.randomseed(os.time())
 	-- math.randomseed(tostring(os.time()):reverse():sub(1, 6)) 
-	return Vector2(math.random(0, this.size.x-1), math.random(0, this.size.y-1))
+	return Vector2(math.random(0, this.setting.size.x-1), math.random(0, this.setting.size.y-1))
 end
 local function ContainsCoordinates(coordinate) 
-	return coordinate.x >= 0 and coordinate.x < this.size.x and coordinate.y >= 0 and coordinate.y < this.size.y;
+	return coordinate.x >= 0 and coordinate.x < this.setting.size.x and coordinate.y >= 0 and coordinate.y < this.setting.size.y;
 end
 
 local function CreateCell(coordinates)
@@ -118,7 +115,7 @@ local function CreateCell(coordinates)
 	this.cells[x][y] = newCell;
 	local objRes = this.maze_pool:Spawn(this.trans_cell);
 	objRes.name = "Maze Cell"..x..","..y;
-	objRes.localPosition = Vector3(x-this.size.x*0.5+0.5, 0, y-this.size.y*0.5+0.5);
+	objRes.localPosition = Vector3(x-this.setting.size.x*0.5+0.5, 0, y-this.setting.size.y*0.5+0.5);
 	newCell.objRes = objRes;
 	return newCell;
 end
@@ -141,7 +138,7 @@ end
 local function CreatePassage(cell, otherCell, direction)
 	local dwType = 1;
 	local trans = this.trans_passage;
-	if math.random(1,10000)/10000<this.doorProbability then 
+	if math.random(1,10000)/10000<this.setting.doorProbability then 
 		dwType = 3;
 		trans = this.trans_door;
 	end
@@ -193,13 +190,30 @@ local function GetCell (coordinates)
 	return this.cells[coordinates.x][coordinates.y];
 end
 
+local default = {
+		sizex = 10,
+		sizey = 10,
+		doorProbability = 0.1;
+		roomVisible = true;
+	}
+function MazeManager.resetting(sizex, sizey, doorProbability, roomVisible)
+	this.setting = {};
+	this.setting.size = Vector2(sizex or default.sizex,sizey or default.sizey);
+	this.setting.doorProbability = doorProbability or default.doorProbability;
+	this.setting.roomHide = roomHide or default.roomHide;
+
+end
+
+function MazeManager.getsetting()
+	return this.setting or default;
+end
+
 function MazeManager.BeginGame()
 	this.cells = {};
 	this.activeCells = {};
 	this.activeCells.length = 0;
-	this.doorProbability = 0.1;
 	this.rooms = {};
-	for i=0,this.size.x do 
+	for i=0,this.setting.size.x do 
 		this.cells[i] = {};
 	end
 	this.DoFirstGenerationStep();
@@ -207,9 +221,9 @@ function MazeManager.BeginGame()
 		coroutine.wait(0.01)
 		this.DoNextGenerationStep();
 	end
-	-- for _, v in pairs(this.rooms) do 
-	-- 	v:Hide();
-	-- end
+	for _, v in pairs(this.rooms) do 
+		v:Hide();
+	end
 	this.CreatePlayer();
 end
 
@@ -223,6 +237,10 @@ function MazeManager.RestartGame()
 end
 
 function MazeManager.StartGame()
+	if not this.bInit then 
+		this.bInit = true;
+		this.Init();
+	end
 	this.objCamera.clearFlags = UnityEngine.CameraClearFlags.Skybox;
 	this.objCamera.rect = Rect.New(0,0,1,1)
 	coroutine.start(this.BeginGame)

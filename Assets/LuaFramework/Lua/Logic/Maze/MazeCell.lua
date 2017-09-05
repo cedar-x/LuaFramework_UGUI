@@ -82,10 +82,14 @@ function MazeCell:GetEdge(direction)
 end
 
 function MazeCell:Show()
+	local setting = MazeManager.getsetting()
+	if not setting.roomHide then return end
 	self.objRes.gameObject:SetActive(true)
 end
 
 function MazeCell:Hide()
+	local setting = MazeManager.getsetting()
+	if not setting.roomHide then return end
 	self.objRes.gameObject:SetActive(false)
 end
 
