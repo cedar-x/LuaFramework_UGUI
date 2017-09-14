@@ -57,6 +57,10 @@ namespace LuaFramework {
         public void LoadPrefab(string abName, string[] assetNames, LuaFunction func) {
             LoadAsset<GameObject>(abName, assetNames, null, func);
         }
+        public void LoadMetarial(string abName, string[] assetNames, LuaFunction func)
+        {
+            LoadAsset<Material>(abName, assetNames, null, func);
+        }
 
         string GetRealAssetPath(string abName) {
             if (abName.Equals(AppConst.AssetDir)) {
@@ -166,6 +170,20 @@ namespace LuaFramework {
         IEnumerator OnLoadAssetBundle(string abName, Type type) {
             string url = m_BaseDownloadingURL + abName;
 
+            List<LoadAssetRequest> requests = null;
+            if (!m_LoadRequests.TryGetValue(abName, out requests))
+            {
+                LoadAssetRequest request = new LoadAssetRequest();
+                request.assetType = null;
+                request.assetNames = new string[0]{};
+                request.luaFunc = null;
+                request.sharpFunc = null;
+
+                requests = new List<LoadAssetRequest>();
+                requests.Add(request);
+                m_LoadRequests.Add(abName, requests);
+            }
+
             WWW download = null;
             if (type == typeof(AssetBundleManifest))
                 download = new WWW(url);
@@ -179,7 +197,8 @@ namespace LuaFramework {
                         if (m_LoadedAssetBundles.TryGetValue(depName, out bundleInfo)) {
                             continue;
                         } else if (!m_LoadRequests.ContainsKey(depName)) {
-                            yield return StartCoroutine(OnLoadAssetBundle(depName, type));
+                            //yield return StartCoroutine(OnLoadAssetBundle(depName, type));
+                            yield return StartCoroutine(OnLoadAsset<GameObject>(depName));
                         }
                     }
                 }
