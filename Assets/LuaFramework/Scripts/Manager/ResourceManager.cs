@@ -57,9 +57,17 @@ namespace LuaFramework {
         public void LoadPrefab(string abName, string[] assetNames, LuaFunction func) {
             LoadAsset<GameObject>(abName, assetNames, null, func);
         }
+        public object LoadPrefabSync(string abName, string[] assetNames)
+        {
+            return LoadAssetSync<GameObject>(abName, assetNames);
+        }
         public void LoadMetarial(string abName, string[] assetNames, LuaFunction func)
         {
             LoadAsset<Material>(abName, assetNames, null, func);
+        }
+
+        public object LoadMetarialSync(string abName, string [] assetNames) {
+            return LoadAssetSync<Material>(abName, assetNames);
         }
 
         string GetRealAssetPath(string abName) {
@@ -83,6 +91,24 @@ namespace LuaFramework {
             }
             Debug.LogError("GetRealAssetPath Error:>>" + abName);
             return null;
+        }
+
+        object LoadAssetSync<T>(string abName, string[] assetNames) where T : UObject {
+            abName = GetRealAssetPath(abName);
+            AssetBundleInfo bundleInfo = GetLoadedAssetBundle(abName);
+            if (bundleInfo == null){
+                Debug.LogError("LoadAssetSync Failed:BundleInfo is nil: Please LoadPrefabAsyn:" + abName + ":" + assetNames.ToString());
+                return null;
+            }
+            List<UObject> result = new List<UObject>();
+            AssetBundle ab = bundleInfo.m_AssetBundle;
+
+            for (int j = 0; j < assetNames.Length; j++) {
+                string assetPath = assetNames[j];
+                T assetObj = ab.LoadAsset<T>(assetPath);
+                result.Add(assetObj);
+            }
+            return (object)result.ToArray();
         }
 
         /// <summary>

@@ -1,8 +1,9 @@
 
 _G.MazeManager = {}
 local this = MazeManager;
-
+this.LoadBundles = {"mazeprefab", "mazematerials"}
 function MazeManager.Init()
+	if this.bInit == true then return end
 	-- this.objMazeRoot = GameObject.New("MazeRoot");
 	-- this.objMazeRoot.transform.localPosition = Vector3(123,23,1);
 	-- local objMaterial = newObject(Resources.Load("MazePrefab/Maze Wall"));
@@ -12,8 +13,8 @@ function MazeManager.Init()
 
  	local maze_pool = poolMgr:Create("Maze_")
  	maze_pool.group.localPosition = Vector3(-8,0,0);
-
- 	this.trans_cell = Resources.Load("MazePrefab/Maze Cell").transform
+ 	local objs = resMgr:LoadPrefabSync("mazeprefab", {"Maze Cell", "Maze Door", "Maze Wall", "Maze Passage", "SrpgcPlayer"});
+ 	this.trans_cell = objs[0].transform
  	local cell_pool = prefabPool.New(this.trans_cell);
  	cell_pool.preloadAmount = 5;
     cell_pool.cullDespawned = true;
@@ -24,7 +25,7 @@ function MazeManager.Init()
     cell_pool.limitFIFO = true;
     maze_pool:CreatePrefabPool(cell_pool)
 
-    this.trans_door = Resources.Load("MazePrefab/Maze Door").transform
+    this.trans_door = objs[1].transform
     local door_pool = prefabPool.New(this.trans_door);
  	door_pool.preloadAmount = 5;
     door_pool.cullDespawned = true;
@@ -35,7 +36,7 @@ function MazeManager.Init()
     door_pool.limitFIFO = true;
     maze_pool:CreatePrefabPool(door_pool)
 
-    this.trans_wall = Resources.Load("MazePrefab/Maze Wall").transform
+    this.trans_wall = objs[2].transform
     local wall_pool = prefabPool.New(this.trans_wall);
  	wall_pool.preloadAmount = 5;
     wall_pool.cullDespawned = true;
@@ -46,7 +47,7 @@ function MazeManager.Init()
     wall_pool.limitFIFO = true;
     maze_pool:CreatePrefabPool(wall_pool)
 
-    this.trans_passage = Resources.Load("MazePrefab/Maze Passage").transform
+    this.trans_passage = objs[3].transform
     local passage_pool = prefabPool.New(this.trans_passage);
  	passage_pool.preloadAmount = 5;
     passage_pool.cullDespawned = true;
@@ -57,16 +58,25 @@ function MazeManager.Init()
     passage_pool.limitFIFO = true;
     maze_pool:CreatePrefabPool(passage_pool)
 
-    local roomSettings = {};
+    MazePlayer.objPrefab = objs[4]
+
+	local roomSettings = {};
     local length = 4;
-   	for i=1, length do 
+    local tabRes = {};
+    for i=1,length do 
+    	table.insert(tabRes, "Floor "..i)
+    	table.insert(tabRes, "Walls "..i)
+    end
+    objs = resMgr:LoadMetarialSync("mazematerials", tabRes);
+    for i=0, length-1 do 
    		local floorRes = {}
-   		floorRes.floorMaterial = Resources.Load("MazeMaterials/Floor "..i);
-   		floorRes.wallMaterial = Resources.Load("MazeMaterials/Walls "..i);
+   		floorRes.floorMaterial = newObject(objs[2*i])
+   		floorRes.wallMaterial = newObject(objs[2*i+1])
    		table.insert(roomSettings, floorRes);
    	end
-   	roomSettings.length = length;
    	this.roomSettings = roomSettings;
+
+   	roomSettings.length = length;
 
     this.maze_pool = maze_pool;
 
@@ -75,6 +85,8 @@ function MazeManager.Init()
 	objCamera.transform.localRotation = Quaternion.Euler(60, 0, 0)
 	objCamera.depth = 1;
 	this.objCamera = objCamera;
+
+	this.bInit = true;
 --------------------------------------------
   -- for i=1, 50 do 
   -- 	local inst = maze_pool:Spawn(this.trans_cell)
@@ -238,7 +250,6 @@ end
 
 function MazeManager.StartGame()
 	if not this.bInit then 
-		this.bInit = true;
 		this.Init();
 	end
 	this.objCamera.clearFlags = UnityEngine.CameraClearFlags.Skybox;

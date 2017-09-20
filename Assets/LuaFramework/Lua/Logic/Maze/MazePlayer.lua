@@ -4,7 +4,8 @@ local this = MazePlayer;
 
 function MazePlayer.Init()
 	if not this.objRes then 
-		this.objRes = newObject(Resources.Load("MazePrefab/SrpgcPlayer"));
+		-- this.objRes = newObject(Resources.Load("MazePrefab/SrpgcPlayer"));
+		this.objRes = newObject(this.objPrefab);
 		UpdateBeat:Add(this.Update, self)
 	end
 	this.objRes:SetActive(true)

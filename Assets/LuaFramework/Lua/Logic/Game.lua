@@ -13,6 +13,7 @@ require "Logic/LuaClass"
 require "Logic/CtrlManager"
 require "Common/functions"
 require "Common/IndexDataMgr"
+require "Logic/ResLoader"
 require "View/UIViewer"
 
 --管理器--
@@ -46,6 +47,23 @@ function Game.OnInitOK()
     logWarn('LuaFramework InitOK--->>>');
 
     -- local objRes = newObject(Resources.Load("MazePrefab/Maze Wall")).transform:GetChild(0);
+
+    -- local length = 4;
+    -- local tabRes = {};
+    -- for i=1,length do 
+    --     table.insert(tabRes, "Floor "..i)
+    --     table.insert(tabRes, "Walls "..i)
+    -- end
+    -- resMgr:LoadMetarial("mazematerials", tabRes, function(objs)
+    --         for i=0, length-1 do 
+    --             local trans = newObject(Resources.Load("MazePrefab/Maze Wall")).transform;
+    --             trans.localPosition = Vector3(0, 2*i, 0)
+    --             trans:GetChild(0):GetComponent("Renderer").material = objs[2*i];
+    --             local trans2 = newObject(Resources.Load("MazePrefab/Maze Wall")).transform;
+    --             trans2.localPosition = Vector3(0, 2*i+1, 0)
+    --            trans2:GetChild(0):GetComponent("Renderer").material = objs[2*i+1];
+    --         end
+    --     end)
     -- local objRender = objRes:GetComponent("Renderer");
     -- objRender.material = Resources.Load("MazeMaterials/Floor 1");
     -- logWarn(tostring(objRender))

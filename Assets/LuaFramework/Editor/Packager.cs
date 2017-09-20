@@ -168,6 +168,9 @@ public class Packager {
 
         AddBuildMap("prompt_asset" + AppConst.ExtName, "*.png", "Assets/LuaFramework/Examples/Textures/Prompt");
         AddBuildMap("shared_asset" + AppConst.ExtName, "*.png", "Assets/LuaFramework/Examples/Textures/Shared");
+
+        AddBuildMap("mazeprefab" + AppConst.ExtName, "*.prefab", "Assets/LuaFramework/Resources/MazePrefab");
+        AddBuildMap("mazematerials" + AppConst.ExtName, "*.mat", "Assets/LuaFramework/Resources/MazeMaterials");
     }
 
     /// <summary>

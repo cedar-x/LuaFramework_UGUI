@@ -8,12 +8,13 @@ end
 
 --输出日志--
 function log(...)
-    Util.Log(formatlog({...}));
+    -- Util.Log(formatlog({...}));
+    print(formatlog({...}));
 end
 
 --错误日志--
 function logError(...) 
-	Util.LogError(formatlog({...}));
+	Util.LogError(debug.traceback(formatlog({...})));
 end
 
 --警告日志--
