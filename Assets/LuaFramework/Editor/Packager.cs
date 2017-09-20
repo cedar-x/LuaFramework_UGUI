@@ -171,6 +171,7 @@ public class Packager {
 
         AddBuildMap("mazeprefab" + AppConst.ExtName, "*.prefab", "Assets/LuaFramework/Resources/MazePrefab");
         AddBuildMap("mazematerials" + AppConst.ExtName, "*.mat", "Assets/LuaFramework/Resources/MazeMaterials");
+        AddBuildMap("hexprefab" + AppConst.ExtName, "*.prefab", "Assets/LuaFramework/Resources/HexPrefab");
     }
 
     /// <summary>

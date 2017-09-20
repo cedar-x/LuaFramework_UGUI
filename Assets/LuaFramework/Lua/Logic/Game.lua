@@ -46,6 +46,13 @@ function Game.OnInitOK()
 
     logWarn('LuaFramework InitOK--->>>');
 
+    require "Logic/HexMap/Include"
+
+    ResLoader:ReadyBundles(HexManager.LoadBundles, function()
+            HexManager.resetting()
+            HexManager.StartGame();
+        end)
+
     -- local objRes = newObject(Resources.Load("MazePrefab/Maze Wall")).transform:GetChild(0);
 
     -- local length = 4;
