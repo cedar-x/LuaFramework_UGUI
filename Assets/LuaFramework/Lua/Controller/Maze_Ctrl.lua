@@ -29,10 +29,17 @@ function Maze_Ctrl:SetParam()
 	local doorProb = tonumber(self.UIBuffer.input_doorProb.text)
 	local sidenum = 4;
 
-	require "Logic/Maze/Include"
-
-	MazeManager.resetting(width, height, doorProb, self.UIBuffer.radio_otherroom.isOn)
-	ResLoader:ReadyBundles(MazeManager.LoadBundles, function()
-			MazeManager.StartGame();
-		end)
+	if self.UIBuffer.toggle_hexagon.isOn then 
+		require "Logic/HexMap/Include"
+		HexManager.resetting(width, height, doorProb, self.UIBuffer.radio_otherroom.isOn)
+	    ResLoader:ReadyBundles(HexManager.LoadBundles, function()
+	            HexManager.StartGame();
+	        end)
+	else
+		require "Logic/Maze/Include"
+		MazeManager.resetting(width, height, doorProb, self.UIBuffer.radio_otherroom.isOn)
+		ResLoader:ReadyBundles(MazeManager.LoadBundles, function()
+				MazeManager.StartGame();
+			end)
+	end
 end
