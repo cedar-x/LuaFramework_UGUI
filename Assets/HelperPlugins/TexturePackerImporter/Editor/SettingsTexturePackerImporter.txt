@@ -1,5 +1,5 @@
 version: 2
-importPivots: 1
+importPivots: 0
 tpsheetFileNames:
 textureFileNames:
 normalmapFileNames:
